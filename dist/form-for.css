@@ -444,12 +444,10 @@ text-field {
 }
 
 .form-for-tooltip {
-  display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+      align-items: center;
   height: 15px;
   width: 15px;
 }
@@ -457,9 +455,8 @@ text-field {
   display: inline-block;
   width: 15px;
   height: 15px;
-  -webkit-flex: 0 0 15px;
-      -ms-flex: 0 0 15px;
-          flex: 0 0 15px;
+  -ms-flex: 0 0 15px;
+      flex: 0 0 15px;
   border-radius: 15px;
   line-height: 15px;
   background-color: #848b88;
@@ -477,9 +474,8 @@ text-field {
   display: none;
   position: relative;
   z-index: 2;
-  -webkit-flex: 0 0 350px;
-      -ms-flex: 0 0 350px;
-          flex: 0 0 350px;
+  -ms-flex: 0 0 350px;
+      flex: 0 0 350px;
   width: 350px;
   border-radius: 6px;
   padding: 15px;

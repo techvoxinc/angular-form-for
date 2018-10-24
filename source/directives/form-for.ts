@@ -78,6 +78,17 @@ module formFor {
         angular.copy(this, $scope.controller);
       }
 
+      // watch for validationRules change and update it
+      $scope.$watch(
+        'validationRules',
+        function(newVal, oldVal) {
+          if (newVal != oldVal) {
+            $scope.$validationRuleset = newVal;
+          }
+        },
+        true
+      );
+
       // Disable all child inputs if the form becomes disabled.
       $scope.$watch('disable', (value) => {
         angular.forEach($scope.fields, (fieldDatum:FieldDatum) => {

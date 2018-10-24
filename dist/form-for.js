@@ -22,7 +22,7 @@ var formFor;
         };
         AriaManager.prototype.link.$inject = ["$scope", "$element", "$attributes"];
         return AriaManager;
-    })();
+    }());
     formFor.AriaManager = AriaManager;
     angular.module('formFor').directive('ariaManager', function () {
         return new AriaManager();
@@ -310,7 +310,7 @@ var formFor;
             this.validationFailedForPositiveTypeMessage_ = value;
         };
         return FormForConfiguration;
-    })();
+    }());
     formFor.FormForConfiguration = FormForConfiguration;
     ;
     angular.module('formFor').service('FormForConfiguration', function () { return new FormForConfiguration(); });
@@ -381,7 +381,7 @@ var formFor;
             });
         };
         return FieldHelper;
-    })();
+    }());
     formFor.FieldHelper = FieldHelper;
     angular.module('formFor').service('FieldHelper', ["FormForConfiguration", function (FormForConfiguration) { return new FieldHelper(FormForConfiguration); }]);
 })(formFor || (formFor = {}));
@@ -442,7 +442,7 @@ var formFor;
         };
         CheckboxFieldDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return CheckboxFieldDirective;
-    })();
+    }());
     formFor.CheckboxFieldDirective = CheckboxFieldDirective;
     angular.module('formFor').directive('checkboxField', ["$log", "FieldHelper", function ($log, FieldHelper) {
         return new CheckboxFieldDirective($log, FieldHelper);
@@ -487,7 +487,7 @@ var formFor;
         };
         CollectionLabelDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return CollectionLabelDirective;
-    })();
+    }());
     formFor.CollectionLabelDirective = CollectionLabelDirective;
     angular.module('formFor').directive('collectionLabel', ["$sce", function ($sce) {
         return new CollectionLabelDirective($sce);
@@ -520,7 +520,7 @@ var formFor;
         };
         FieldErrorDirective.prototype.link.$inject = ["$scope"];
         return FieldErrorDirective;
-    })();
+    }());
     formFor.FieldErrorDirective = FieldErrorDirective;
     angular.module('formFor').directive('fieldError', function () {
         return new FieldErrorDirective();
@@ -576,7 +576,7 @@ var formFor;
         };
         FieldLabelDirective.prototype.link.$inject = ["$scope", "$element", "$attributes"];
         return FieldLabelDirective;
-    })();
+    }());
     formFor.FieldLabelDirective = FieldLabelDirective;
     angular.module('formFor').directive('fieldLabel', ["$sce", "FormForConfiguration", function ($sce, FormForConfiguration) {
         return new FieldLabelDirective($sce, FormForConfiguration);
@@ -667,7 +667,7 @@ var formFor;
         };
         FormForBuilderDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return FormForBuilderDirective;
-    })();
+    }());
     formFor.FormForBuilderDirective = FormForBuilderDirective;
     ;
     angular.module('formFor').directive('formForBuilder', ["$compile", "$parse", function ($compile, $parse) {
@@ -784,7 +784,7 @@ var formFor;
         };
         FormForDebounceDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "ngModelController"];
         return FormForDebounceDirective;
-    })();
+    }());
     formFor.FormForDebounceDirective = FormForDebounceDirective;
     angular.module('formFor').directive('formForDebounce', ["$log", "$sniffer", "$timeout", "FormForConfiguration", function ($log, $sniffer, $timeout, FormForConfiguration) {
         return new FormForDebounceDirective($log, $sniffer, $timeout, FormForConfiguration);
@@ -906,7 +906,7 @@ var formFor;
             }
         };
         return NestedObjectHelper;
-    })();
+    }());
     formFor.NestedObjectHelper = NestedObjectHelper;
 })(formFor || (formFor = {}));
 var formFor;
@@ -1001,7 +1001,7 @@ var formFor;
             return this.$q_.when(value);
         };
         return PromiseUtils;
-    })();
+    }());
     formFor.PromiseUtils = PromiseUtils;
 })(formFor || (formFor = {}));
 /// <reference path="../utils/nested-object-helper.ts" />
@@ -1346,6 +1346,12 @@ var formFor;
             if ($scope.controller) {
                 angular.copy(this, $scope.controller);
             }
+            // watch for validationRules change and update it
+            $scope.$watch('validationRules', function (newVal, oldVal) {
+                if (newVal != oldVal) {
+                    $scope.$validationRuleset = newVal;
+                }
+            }, true);
             // Disable all child inputs if the form becomes disabled.
             $scope.$watch('disable', function (value) {
                 angular.forEach($scope.fields, function (fieldDatum) {
@@ -1456,7 +1462,7 @@ var formFor;
         };
         FormForDirective.prototype.link.$inject = ["$scope", "$element", "$attributes"];
         return FormForDirective;
-    })();
+    }());
     formFor.FormForDirective = FormForDirective;
     angular.module('formFor').directive('formFor', ["$injector", function ($injector) {
         return new FormForDirective($injector);
@@ -1480,7 +1486,7 @@ var formFor;
             return ("0000" + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
         };
         return FormForGUID;
-    })();
+    }());
     formFor.FormForGUID = FormForGUID;
 })(formFor || (formFor = {}));
 /// <reference path="../services/field-helper.ts" />
@@ -1573,7 +1579,7 @@ var formFor;
         };
         RadioFieldDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return RadioFieldDirective;
-    })();
+    }());
     formFor.RadioFieldDirective = RadioFieldDirective;
     angular.module('formFor').directive('radioField', ["$sce", "$log", "FormForConfiguration", function ($sce, $log, FormForConfiguration) {
         return new RadioFieldDirective($sce, $log, FormForConfiguration);
@@ -1798,7 +1804,7 @@ var formFor;
         };
         SelectFieldDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return SelectFieldDirective;
-    })();
+    }());
     formFor.SelectFieldDirective = SelectFieldDirective;
     angular.module('formFor').directive('selectField', ["$document", "$log", "$timeout", "FieldHelper", "FormForConfiguration", function ($document, $log, $timeout, FieldHelper, FormForConfiguration) {
         return new SelectFieldDirective($document, $log, $timeout, FieldHelper, FormForConfiguration);
@@ -1850,7 +1856,7 @@ var formFor;
         };
         SubmitButtonDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return SubmitButtonDirective;
-    })();
+    }());
     formFor.SubmitButtonDirective = SubmitButtonDirective;
     angular.module('formFor').directive('submitButton', ["$sce", function ($sce) {
         return new SubmitButtonDirective($sce);
@@ -2046,7 +2052,7 @@ var formFor;
             };
         };
         return TextFieldDirective;
-    })();
+    }());
     formFor.TextFieldDirective = TextFieldDirective;
     angular.module('formFor').directive('textField', ["$log", "$timeout", "FieldHelper", function ($log, $timeout, FieldHelper) {
         return new TextFieldDirective($log, $timeout, FieldHelper);
@@ -2298,7 +2304,7 @@ var formFor;
         };
         TypeAheadFieldDirective.prototype.link.$inject = ["$scope", "$element", "$attributes", "formForController"];
         return TypeAheadFieldDirective;
-    })();
+    }());
     formFor.TypeAheadFieldDirective = TypeAheadFieldDirective;
     angular.module('formFor').directive('typeAheadField', ["$document", "$log", "$timeout", "FieldHelper", function ($document, $log, $timeout, FieldHelper) {
         return new TypeAheadFieldDirective($document, $log, $timeout, FieldHelper);
@@ -2357,7 +2363,7 @@ var formFor;
         function BindableFieldWrapper() {
         }
         return BindableFieldWrapper;
-    })();
+    }());
     formFor.BindableFieldWrapper = BindableFieldWrapper;
     ;
 })(formFor || (formFor = {}));
@@ -2829,7 +2835,7 @@ var formFor;
             return null;
         };
         return ModelValidator;
-    })();
+    }());
     formFor.ModelValidator = ModelValidator;
     angular.module('formFor').service('ModelValidator', ["$interpolate", "$parse", "$q", "FormForConfiguration", function ($interpolate, $parse, $q, FormForConfiguration) {
         return new ModelValidator($interpolate, $parse, $q, FormForConfiguration);
@@ -2897,7 +2903,7 @@ var formFor;
             this.watchable++;
         };
         return FormForStateHelper;
-    })();
+    }());
     formFor.FormForStateHelper = FormForStateHelper;
 })(formFor || (formFor = {}));
 var formFor;
@@ -2932,7 +2938,7 @@ var formFor;
             return text;
         };
         return StringUtil;
-    })();
+    }());
     formFor.StringUtil = StringUtil;
 })(formFor || (formFor = {}));
 /// <reference path="../../../definitions/angular.d.ts" />
