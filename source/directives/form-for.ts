@@ -67,7 +67,11 @@ module formFor {
       if ($scope.validationRules) {
         $scope.$validationRuleset = $scope.validationRules;
       } else if ($scope.$service) {
-        $scope.$validationRuleset = $scope.$service.validationRules;
+        if(typeof $scope.$service.validationRules === "function") {
+          $scope.$validationRuleset = $scope.$service.validationRules();
+        } else {
+          $scope.$validationRuleset = $scope.$service.validationRules;
+        }      
       }
 
       // Attach FormForController (interface) methods to the directive's controller (this).
