@@ -68,7 +68,9 @@ module formFor {
         $scope.$validationRuleset = $scope.validationRules;
       } else if ($scope.$service) {
         if(typeof $scope.$service.validationRules === "function") {
-          $scope.$validationRuleset = $scope.$service.validationRules();
+          $scope.$service.validationRules().then(function (result) {
+            $scope.$validationRuleset = result;
+          });          
         } else {
           $scope.$validationRuleset = $scope.$service.validationRules;
         }      

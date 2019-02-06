@@ -3,66 +3,6 @@ angular.module('formFor', []);
 var formFor;
 (function (formFor) {
     /**
-     * Input types available for auto-created forms; see {@link FieldView}.
-     */
-    (function (BuilderFieldType) {
-        BuilderFieldType[BuilderFieldType["CHECKBOX"] = "checkbox"] = "CHECKBOX";
-        BuilderFieldType[BuilderFieldType["NUMBER"] = "number"] = "NUMBER";
-        BuilderFieldType[BuilderFieldType["PASSWORD"] = "password"] = "PASSWORD";
-        BuilderFieldType[BuilderFieldType["RADIO"] = "radio"] = "RADIO";
-        BuilderFieldType[BuilderFieldType["SELECT"] = "select"] = "SELECT";
-        BuilderFieldType[BuilderFieldType["TEXT"] = "text"] = "TEXT";
-    })(formFor.BuilderFieldType || (formFor.BuilderFieldType = {}));
-    var BuilderFieldType = formFor.BuilderFieldType;
-})(formFor || (formFor = {}));
-var formFor;
-(function (formFor) {
-    /**
-     * Identifies a validation failure type.
-     */
-    (function (ValidationFailureType) {
-        ValidationFailureType[ValidationFailureType["COLLECTION_MAX_SIZE"] = "COLLECTION_MAX_SIZE"] = "COLLECTION_MAX_SIZE";
-        ValidationFailureType[ValidationFailureType["COLLECTION_MIN_SIZE"] = "COLLECTION_MIN_SIZE"] = "COLLECTION_MIN_SIZE";
-        ValidationFailureType[ValidationFailureType["CUSTOM"] = "CUSTOM"] = "CUSTOM";
-        ValidationFailureType[ValidationFailureType["INCREMENT"] = "INCREMENT"] = "INCREMENT";
-        ValidationFailureType[ValidationFailureType["MAXIMUM"] = "MAXIMUM"] = "MAXIMUM";
-        ValidationFailureType[ValidationFailureType["MAX_LENGTH"] = "MAX_LENGTH"] = "MAX_LENGTH";
-        ValidationFailureType[ValidationFailureType["MINIMUM"] = "MINIMUM"] = "MINIMUM";
-        ValidationFailureType[ValidationFailureType["MIN_LENGTH"] = "MIN_LENGTH"] = "MIN_LENGTH";
-        ValidationFailureType[ValidationFailureType["PATTERN"] = "PATTERN"] = "PATTERN";
-        ValidationFailureType[ValidationFailureType["REQUIRED"] = "REQUIRED_FIELD"] = "REQUIRED";
-        ValidationFailureType[ValidationFailureType["TYPE_EMAIL"] = "TYPE_EMAIL"] = "TYPE_EMAIL";
-        ValidationFailureType[ValidationFailureType["TYPE_INTEGER"] = "TYPE_INTEGER"] = "TYPE_INTEGER";
-        ValidationFailureType[ValidationFailureType["TYPE_NEGATIVE"] = "TYPE_NEGATIVE"] = "TYPE_NEGATIVE";
-        ValidationFailureType[ValidationFailureType["TYPE_NON_NEGATIVE"] = "TYPE_NON_NEGATIVE"] = "TYPE_NON_NEGATIVE";
-        ValidationFailureType[ValidationFailureType["TYPE_NUMERIC"] = "TYPE_NUMERIC"] = "TYPE_NUMERIC";
-        ValidationFailureType[ValidationFailureType["TYPE_POSITIVE"] = "TYPE_POSITIVE"] = "TYPE_POSITIVE";
-    })(formFor.ValidationFailureType || (formFor.ValidationFailureType = {}));
-    var ValidationFailureType = formFor.ValidationFailureType;
-    ;
-})(formFor || (formFor = {}));
-;
-var formFor;
-(function (formFor) {
-    /**
-     * Constraints that can be applied to a form field.
-     * These constraints can be combined (e.g. "positive integer").
-     */
-    (function (ValidationFieldType) {
-        ValidationFieldType[ValidationFieldType["EMAIL"] = "email"] = "EMAIL";
-        ValidationFieldType[ValidationFieldType["INTEGER"] = "integer"] = "INTEGER";
-        ValidationFieldType[ValidationFieldType["NEGATIVE"] = "negative"] = "NEGATIVE";
-        ValidationFieldType[ValidationFieldType["NON_NEGATIVE"] = "nonNegative"] = "NON_NEGATIVE";
-        ValidationFieldType[ValidationFieldType["NUMBER"] = "number"] = "NUMBER";
-        ValidationFieldType[ValidationFieldType["POSITIVE"] = "positive"] = "POSITIVE";
-    })(formFor.ValidationFieldType || (formFor.ValidationFieldType = {}));
-    var ValidationFieldType = formFor.ValidationFieldType;
-    ;
-})(formFor || (formFor = {}));
-;
-var formFor;
-(function (formFor) {
-    /**
      * Helper directive for input elements.
      * Observes the $scope :model attribute and updates aria-* elements accordingly.
      */
@@ -1399,7 +1339,9 @@ var formFor;
             }
             else if ($scope.$service) {
                 if (typeof $scope.$service.validationRules === "function") {
-                    $scope.$validationRuleset = $scope.$service.validationRules();
+                    $scope.$service.validationRules().then(function (result) {
+                        $scope.$validationRuleset = result;
+                    });
                 }
                 else {
                     $scope.$validationRuleset = $scope.$service.validationRules;
@@ -1927,6 +1869,24 @@ var formFor;
         return new SubmitButtonDirective($sce);
     }]);
 })(formFor || (formFor = {}));
+var formFor;
+(function (formFor) {
+    /**
+     * Constraints that can be applied to a form field.
+     * These constraints can be combined (e.g. "positive integer").
+     */
+    (function (ValidationFieldType) {
+        ValidationFieldType[ValidationFieldType["EMAIL"] = "email"] = "EMAIL";
+        ValidationFieldType[ValidationFieldType["INTEGER"] = "integer"] = "INTEGER";
+        ValidationFieldType[ValidationFieldType["NEGATIVE"] = "negative"] = "NEGATIVE";
+        ValidationFieldType[ValidationFieldType["NON_NEGATIVE"] = "nonNegative"] = "NON_NEGATIVE";
+        ValidationFieldType[ValidationFieldType["NUMBER"] = "number"] = "NUMBER";
+        ValidationFieldType[ValidationFieldType["POSITIVE"] = "positive"] = "POSITIVE";
+    })(formFor.ValidationFieldType || (formFor.ValidationFieldType = {}));
+    var ValidationFieldType = formFor.ValidationFieldType;
+    ;
+})(formFor || (formFor = {}));
+;
 /// <reference path="../services/field-helper.ts" />
 /// <reference path="../enums/validation-field-type.ts" />
 var formFor;
@@ -2357,6 +2317,48 @@ var formFor;
         return new TypeAheadFieldDirective($document, $log, $timeout, FieldHelper);
     }]);
 })(formFor || (formFor = {}));
+var formFor;
+(function (formFor) {
+    /**
+     * Input types available for auto-created forms; see {@link FieldView}.
+     */
+    (function (BuilderFieldType) {
+        BuilderFieldType[BuilderFieldType["CHECKBOX"] = "checkbox"] = "CHECKBOX";
+        BuilderFieldType[BuilderFieldType["NUMBER"] = "number"] = "NUMBER";
+        BuilderFieldType[BuilderFieldType["PASSWORD"] = "password"] = "PASSWORD";
+        BuilderFieldType[BuilderFieldType["RADIO"] = "radio"] = "RADIO";
+        BuilderFieldType[BuilderFieldType["SELECT"] = "select"] = "SELECT";
+        BuilderFieldType[BuilderFieldType["TEXT"] = "text"] = "TEXT";
+    })(formFor.BuilderFieldType || (formFor.BuilderFieldType = {}));
+    var BuilderFieldType = formFor.BuilderFieldType;
+})(formFor || (formFor = {}));
+var formFor;
+(function (formFor) {
+    /**
+     * Identifies a validation failure type.
+     */
+    (function (ValidationFailureType) {
+        ValidationFailureType[ValidationFailureType["COLLECTION_MAX_SIZE"] = "COLLECTION_MAX_SIZE"] = "COLLECTION_MAX_SIZE";
+        ValidationFailureType[ValidationFailureType["COLLECTION_MIN_SIZE"] = "COLLECTION_MIN_SIZE"] = "COLLECTION_MIN_SIZE";
+        ValidationFailureType[ValidationFailureType["CUSTOM"] = "CUSTOM"] = "CUSTOM";
+        ValidationFailureType[ValidationFailureType["INCREMENT"] = "INCREMENT"] = "INCREMENT";
+        ValidationFailureType[ValidationFailureType["MAXIMUM"] = "MAXIMUM"] = "MAXIMUM";
+        ValidationFailureType[ValidationFailureType["MAX_LENGTH"] = "MAX_LENGTH"] = "MAX_LENGTH";
+        ValidationFailureType[ValidationFailureType["MINIMUM"] = "MINIMUM"] = "MINIMUM";
+        ValidationFailureType[ValidationFailureType["MIN_LENGTH"] = "MIN_LENGTH"] = "MIN_LENGTH";
+        ValidationFailureType[ValidationFailureType["PATTERN"] = "PATTERN"] = "PATTERN";
+        ValidationFailureType[ValidationFailureType["REQUIRED"] = "REQUIRED_FIELD"] = "REQUIRED";
+        ValidationFailureType[ValidationFailureType["TYPE_EMAIL"] = "TYPE_EMAIL"] = "TYPE_EMAIL";
+        ValidationFailureType[ValidationFailureType["TYPE_INTEGER"] = "TYPE_INTEGER"] = "TYPE_INTEGER";
+        ValidationFailureType[ValidationFailureType["TYPE_NEGATIVE"] = "TYPE_NEGATIVE"] = "TYPE_NEGATIVE";
+        ValidationFailureType[ValidationFailureType["TYPE_NON_NEGATIVE"] = "TYPE_NON_NEGATIVE"] = "TYPE_NON_NEGATIVE";
+        ValidationFailureType[ValidationFailureType["TYPE_NUMERIC"] = "TYPE_NUMERIC"] = "TYPE_NUMERIC";
+        ValidationFailureType[ValidationFailureType["TYPE_POSITIVE"] = "TYPE_POSITIVE"] = "TYPE_POSITIVE";
+    })(formFor.ValidationFailureType || (formFor.ValidationFailureType = {}));
+    var ValidationFailureType = formFor.ValidationFailureType;
+    ;
+})(formFor || (formFor = {}));
+;
 var formFor;
 (function (formFor) {
     /**
