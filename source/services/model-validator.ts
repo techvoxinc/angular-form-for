@@ -481,7 +481,7 @@ module formFor {
             : <boolean> validationRules.required;
 
         // Compare both string and numeric values to avoid rejecting non-empty but falsy values (e.g. 0).
-        var stringValue:string = value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
+        var stringValue:string = values === false ? "" : value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
         var numericValue:number = Number(value);
 
         if (required && !stringValue && !numericValue) {

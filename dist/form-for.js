@@ -435,7 +435,7 @@ var formFor;
             $scope.$watch('model.bindable', function (value) {
                 if (!$scope.model)
                     return;
-                $scope.model.bindable = !$scope.model.required ? !!value : (value || undefined);
+                $scope.model.bindable = !$scope.model.required ? !!value : (value ? value : (value === false ? false : undefined));
             });
             fieldHelper_.manageLabel($scope, $attributes, false);
             fieldHelper_.manageFieldRegistration($scope, $attributes, formForController);
@@ -2761,7 +2761,7 @@ var formFor;
                         ? validationRules.required.apply(this, [value, formData, fieldName])
                         : validationRules.required;
                 // Compare both string and numeric values to avoid rejecting non-empty but falsy values (e.g. 0).
-                var stringValue = value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
+                var stringValue = values === false ? "" : value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
                 var numericValue = Number(value);
                 if (required && !stringValue && !numericValue) {
                     var failureMessage;

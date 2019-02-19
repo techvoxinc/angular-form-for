@@ -13,7 +13,7 @@ module formFor {
      * This attributes specifies the data-binding target for the input.
      * Dot notation (ex "address.street") is supported.
      */
-    attribute:string;
+    attribute: string;
 
     /**
      * HTML field attributes; passed along so that custom view implementations can access custom parameters.
@@ -23,57 +23,57 @@ module formFor {
     /**
      * Optional function to be invoked on checkbox change.
      */
-    changed?:Function;
+    changed?: Function;
 
     /**
      * Disable input element.
      * Note the name is disable and not disabled to avoid collisions with the HTML5 disabled attribute.
      */
-    disable:boolean;
+    disable: boolean;
 
     /**
      * Optional help tooltip to display on hover.
      * By default this makes use of the Angular Bootstrap tooltip directive and the Font Awesome icon set.
      */
-    help?:string;
+    help?: string;
 
     /**
      * Optional field label displayed after the checkbox input.
      * Although not required, it is strongly suggested that you specify a value for this attribute.
      * HTML is allowed for this attribute.
      */
-    label?:string;
+    label?: string;
 
     /**
      * Optional class-name for field <label>.
      */
-    labelClass?:string;
+    labelClass?: string;
 
     /**
      * Shared between formFor and CheckboxField directives.
      */
-    model:BindableFieldWrapper;
+    model: BindableFieldWrapper;
 
     /**
      * Optional custom tab index for input; by default this is 0 (tab order chosen by the browser)
      */
-    tabIndex?:number;
+    tabIndex?: number;
 
     /**
      * View should call this method to indicate that the <input type=checkbox> has been clicked.
      * This method is responsible for updating the bindable value.
      */
-    toggle:Function;
+    toggle: Function;
 
     /**
      * Optional ID to assign to the inner <input type="checkbox"> element;
      * A unique ID will be auto-generated if no value is provided.
      */
-    uid?:string;
+    uid?: string;
   }
 
-  var $log_:ng.ILogService;
-  var fieldHelper_:FieldHelper;
+  var $log_: ng.ILogService;
+  var fieldHelper_: FieldHelper;
 
   /**
    * Renders a checkbox <code>input</code> with optional label.
@@ -87,13 +87,13 @@ module formFor {
    */
   export class CheckboxFieldDirective implements ng.IDirective {
 
-    require:string = '^formFor';
-    restrict:string = 'EA';
-    templateUrl:string = ($element, $attributes) => {
-        return $attributes['template'] || 'form-for/templates/checkbox-field.html';
+    require: string = '^formFor';
+    restrict: string = 'EA';
+    templateUrl: string = ($element, $attributes) => {
+      return $attributes['template'] || 'form-for/templates/checkbox-field.html';
     };
 
-    scope:any = {
+    scope: any = {
       attribute: '@',
       disable: '=',
       help: '@?',
@@ -101,16 +101,16 @@ module formFor {
     };
 
     /* @ngInject */
-    constructor($log:ng.ILogService, fieldHelper:FieldHelper) {
+    constructor($log: ng.ILogService, fieldHelper: FieldHelper) {
       $log_ = $log;
       fieldHelper_ = fieldHelper;
     }
 
     /* @ngInject */
-    link($scope:CheckboxFieldScope,
-         $element:ng.IAugmentedJQuery,
-         $attributes:ng.IAttributes,
-         formForController:FormForController) {
+    link($scope: CheckboxFieldScope,
+      $element: ng.IAugmentedJQuery,
+      $attributes: ng.IAttributes,
+      formForController: FormForController) {
       if (!$scope['attribute']) {
         $log_.error('Missing required field "attribute"');
 
@@ -129,7 +129,7 @@ module formFor {
 
       $scope.$watch('model.bindable', function (value) {
         if (!$scope.model) return;
-        $scope.model.bindable = !$scope.model.required ? !!value : (value || undefined);
+        $scope.model.bindable = !$scope.model.required ? !!value : (value ? value : (value === false ? false : undefined));
       });
 
       fieldHelper_.manageLabel($scope, $attributes, false);
