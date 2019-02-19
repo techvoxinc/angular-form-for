@@ -11,10 +11,10 @@ module formFor {
    */
   export class ModelValidator {
 
-    private $interpolate_:ng.IInterpolateService;
-    private formForConfiguration_:FormForConfiguration;
-    private nestedObjectHelper_:NestedObjectHelper;
-    private promiseUtils_:PromiseUtils;
+    private $interpolate_: ng.IInterpolateService;
+    private formForConfiguration_: FormForConfiguration;
+    private nestedObjectHelper_: NestedObjectHelper;
+    private promiseUtils_: PromiseUtils;
 
     /**
      * Constructor.
@@ -24,10 +24,10 @@ module formFor {
      * @param $q Injector-supplied $q service
      * @param formForConfiguration
      */
-    constructor($interpolate:ng.IInterpolateService,
-                $parse:ng.IParseService,
-                $q:ng.IQService,
-                formForConfiguration:FormForConfiguration) {
+    constructor($interpolate: ng.IInterpolateService,
+      $parse: ng.IParseService,
+      $q: ng.IQService,
+      formForConfiguration: FormForConfiguration) {
       this.$interpolate_ = $interpolate;
       this.formForConfiguration_ = formForConfiguration;
 
@@ -41,15 +41,15 @@ module formFor {
      * @param fieldName Name of field containing the collection.
      * @param validationRuleSet Map of field names to validation rules
      */
-    public isCollectionRequired(fieldName:string, validationRuleSet:ValidationRuleSet):boolean {
-      var validationRules:ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
+    public isCollectionRequired(fieldName: string, validationRuleSet: ValidationRuleSet): boolean {
+      var validationRules: ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
 
       if (validationRules &&
         validationRules.collection &&
         validationRules.collection.min) {
 
         if (angular.isObject(validationRules.collection.min)) {
-          return (<ValidationRuleNumber> validationRules.collection.min).rule > 0;
+          return (<ValidationRuleNumber>validationRules.collection.min).rule > 0;
         } else {
           return validationRules.collection.min > 0;
         }
@@ -64,12 +64,12 @@ module formFor {
      * @param fieldName Name of field in question.
      * @param validationRuleSet Map of field names to validation rules
      */
-    public isFieldRequired(fieldName:string, validationRuleSet:ValidationRuleSet):boolean {
-      var validationRules:ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
+    public isFieldRequired(fieldName: string, validationRuleSet: ValidationRuleSet): boolean {
+      var validationRules: ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
 
       if (validationRules && validationRules.required) {
         if (angular.isObject(validationRules.required)) {
-          return (<ValidationRuleBoolean> validationRules.required).rule;
+          return (<ValidationRuleBoolean>validationRules.required).rule;
         } else {
           return !!validationRules.required;
         }
@@ -87,8 +87,8 @@ module formFor {
      * @param validationRuleSet Map of field names to validation rules
      * @return Promise to be resolved or rejected based on validation success or failure.
      */
-    public validateAll(formData:Object, validationRuleSet:ValidationRuleSet):ng.IPromise<string> {
-      var fieldNames:Array<string> = this.nestedObjectHelper_.flattenObjectKeys(formData);
+    public validateAll(formData: Object, validationRuleSet: ValidationRuleSet): ng.IPromise<string> {
+      var fieldNames: Array<string> = this.nestedObjectHelper_.flattenObjectKeys(formData);
 
       return this.validateFields(formData, fieldNames, validationRuleSet);
     }
@@ -102,9 +102,9 @@ module formFor {
      * @param validationRuleSet Map of field names to validation rules
      * @return Promise to be resolved or rejected based on validation success or failure.
      */
-    public validateCollection(formData:Object, fieldName:string, validationRuleSet:ValidationRuleSet):ng.IPromise<any> {
-      var validationRules:ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
-      var collection:Array<any> = this.nestedObjectHelper_.readAttribute(formData, fieldName);
+    public validateCollection(formData: Object, fieldName: string, validationRuleSet: ValidationRuleSet): ng.IPromise<any> {
+      var validationRules: ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
+      var collection: Array<any> = this.nestedObjectHelper_.readAttribute(formData, fieldName);
 
       if (validationRules && validationRules.collection) {
         collection = collection || [];
@@ -127,9 +127,9 @@ module formFor {
      * @param validationRuleSet Map of field names to validation rules
      * @return Promise to be resolved or rejected based on validation success or failure.
      */
-    public validateField(formData:Object, fieldName:string, validationRuleSet:ValidationRuleSet):ng.IPromise<any> {
-      var validationRules:ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
-      var value:any = this.nestedObjectHelper_.readAttribute(formData, fieldName);
+    public validateField(formData: Object, fieldName: string, validationRuleSet: ValidationRuleSet): ng.IPromise<any> {
+      var validationRules: ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
+      var value: any = this.nestedObjectHelper_.readAttribute(formData, fieldName);
 
       if (validationRules) {
         if (value === undefined || value === null) {
@@ -162,16 +162,16 @@ module formFor {
      * @param validationRuleSet Map of field names to validation rules
      * @return Promise to be resolved or rejected based on validation success or failure.
      */
-    public validateFields(formData:Object, fieldNames:Array<string>, validationRuleSet:ValidationRuleSet):ng.IPromise<any> {
-      var deferred:ng.IDeferred<any> = this.promiseUtils_.defer();
-      var promises:Array<ng.IPromise<any>> = [];
-      var errorMap:ValidationErrorMap = {};
+    public validateFields(formData: Object, fieldNames: Array<string>, validationRuleSet: ValidationRuleSet): ng.IPromise<any> {
+      var deferred: ng.IDeferred<any> = this.promiseUtils_.defer();
+      var promises: Array<ng.IPromise<any>> = [];
+      var errorMap: ValidationErrorMap = {};
 
-      angular.forEach(fieldNames, (fieldName:string) => {
-        var validationRules:ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
+      angular.forEach(fieldNames, (fieldName: string) => {
+        var validationRules: ValidationRules = this.getRulesForField(fieldName, validationRuleSet);
 
         if (validationRules) {
-          var promise:ng.IPromise<any>;
+          var promise: ng.IPromise<any>;
 
           if (validationRules.collection) {
             promise = this.validateCollection(formData, fieldName, validationRuleSet);
@@ -205,15 +205,15 @@ module formFor {
      * Strip array brackets from field names so that model values can be mapped to rules.
      * e.g. "foo[0].bar" should be validated against "foo.collection.fields.bar"
      */
-    public getRulesForField(fieldName:string, validationRuleSet:ValidationRuleSet):ValidationRules {
-      var expandedFieldName:string = fieldName.replace(/\[[^\]]+\]/g, '.collection.fields');
+    public getRulesForField(fieldName: string, validationRuleSet: ValidationRuleSet): ValidationRules {
+      var expandedFieldName: string = fieldName.replace(/\[[^\]]+\]/g, '.collection.fields');
 
       return this.nestedObjectHelper_.readAttribute(validationRuleSet, expandedFieldName);
     }
 
-    private getFieldTypeFailureMessage_(validationRules:ValidationRules, failureType:ValidationFailureType):string {
+    private getFieldTypeFailureMessage_(validationRules: ValidationRules, failureType: ValidationFailureType): string {
       return angular.isObject(validationRules.type) ?
-        (<ValidationRuleFieldType> validationRules.type).message :
+        (<ValidationRuleFieldType>validationRules.type).message :
         this.formForConfiguration_.getFailedValidationMessage(failureType);
 
     }
@@ -223,29 +223,29 @@ module formFor {
      * This guards against the fact that `new Number('') == 0`.
      * @private
      */
-    private static isConsideredNumeric_(stringValue:string, numericValue:number):boolean {
+    private static isConsideredNumeric_(stringValue: string, numericValue: number): boolean {
       return stringValue && !isNaN(numericValue);
     }
 
     // Validation helper methods /////////////////////////////////////////////////////////////////////////////////////////
 
-    private validateCollectionMinLength_(collection:any, validationRuleCollection:ValidationRuleCollection):any {
+    private validateCollectionMinLength_(collection: any, validationRuleCollection: ValidationRuleCollection): any {
       if (validationRuleCollection.min) {
-        var min:number =
+        var min: number =
           angular.isObject(validationRuleCollection.min) ?
-            (<ValidationRuleNumber> validationRuleCollection.min).rule :
-            <number> validationRuleCollection.min;
+            (<ValidationRuleNumber>validationRuleCollection.min).rule :
+            <number>validationRuleCollection.min;
 
         if (collection.length < min) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRuleCollection.min)) {
-            failureMessage = (<ValidationRuleNumber> validationRuleCollection.min).message;
+            failureMessage = (<ValidationRuleNumber>validationRuleCollection.min).message;
           } else {
             failureMessage =
               this.$interpolate_(
                 this.formForConfiguration_.getFailedValidationMessage(
-                  ValidationFailureType.COLLECTION_MIN_SIZE))({num: min});
+                  ValidationFailureType.COLLECTION_MIN_SIZE))({ num: min });
           }
 
           return this.promiseUtils_.reject(failureMessage);
@@ -255,23 +255,23 @@ module formFor {
       return null;
     }
 
-    private validateCollectionMaxLength_(collection:any, validationRuleCollection:ValidationRuleCollection):any {
+    private validateCollectionMaxLength_(collection: any, validationRuleCollection: ValidationRuleCollection): any {
       if (validationRuleCollection.max) {
-        var max:number =
+        var max: number =
           angular.isObject(validationRuleCollection.max) ?
-            (<ValidationRuleNumber> validationRuleCollection.max).rule :
-            <number> validationRuleCollection.max;
+            (<ValidationRuleNumber>validationRuleCollection.max).rule :
+            <number>validationRuleCollection.max;
 
         if (collection.length > max) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRuleCollection.max)) {
-            failureMessage = (<ValidationRuleNumber> validationRuleCollection.max).message;
+            failureMessage = (<ValidationRuleNumber>validationRuleCollection.max).message;
           } else {
             failureMessage =
               this.$interpolate_(
                 this.formForConfiguration_.getFailedValidationMessage(
-                  ValidationFailureType.COLLECTION_MAX_SIZE))({num: max});
+                  ValidationFailureType.COLLECTION_MAX_SIZE))({ num: max });
           }
 
           return this.promiseUtils_.reject(failureMessage);
@@ -281,17 +281,17 @@ module formFor {
       return null;
     }
 
-    private validateFieldCustom_(value:any, formData:any, validationRules:ValidationRules, fieldName:any):any {
+    private validateFieldCustom_(value: any, formData: any, validationRules: ValidationRules, fieldName: any): any {
       if (validationRules.custom) {
-        var defaultErrorMessage:string;
-        var validationFunction:CustomValidationFunction;
+        var defaultErrorMessage: string;
+        var validationFunction: CustomValidationFunction;
 
         if (angular.isFunction(validationRules.custom)) {
           defaultErrorMessage = this.formForConfiguration_.getFailedValidationMessage(ValidationFailureType.CUSTOM);
-          validationFunction = <(value:any, formData:any, fieldName:any) => boolean> validationRules.custom;
+          validationFunction = <(value: any, formData: any, fieldName: any) => boolean>validationRules.custom;
         } else {
-          defaultErrorMessage = (<ValidationRuleCustom> validationRules.custom).message;
-          validationFunction = (<ValidationRuleCustom> validationRules.custom).rule;
+          defaultErrorMessage = (<ValidationRuleCustom>validationRules.custom).message;
+          validationFunction = (<ValidationRuleCustom>validationRules.custom).rule;
         }
 
         // Validations can fail in 3 ways:
@@ -300,17 +300,17 @@ module formFor {
         // A falsy value
 
         try {
-          var returnValue:any = validationFunction(value, formData, fieldName);
+          var returnValue: any = validationFunction(value, formData, fieldName);
         } catch (error) {
           return this.promiseUtils_.reject(error.message || defaultErrorMessage);
         }
 
         if (angular.isObject(returnValue) && angular.isFunction(returnValue.then)) {
           return returnValue.then(
-            (reason:any) => {
+            (reason: any) => {
               return this.promiseUtils_.resolve(reason);
             },
-            (reason:any) => {
+            (reason: any) => {
               return this.promiseUtils_.reject(reason || defaultErrorMessage);
             });
         } else if (returnValue) {
@@ -323,16 +323,16 @@ module formFor {
       return null;
     }
 
-    private validateFieldIncrement_(value:any, validationRules:ValidationRules):any {
+    private validateFieldIncrement_(value: any, validationRules: ValidationRules): any {
       if (validationRules.increment) {
-        var stringValue:string = value.toString();
-        var numericValue:number = Number(value);
+        var stringValue: string = value.toString();
+        var numericValue: number = Number(value);
 
-        var increment:number = angular.isObject(validationRules.increment)
-          ? (<ValidationRuleNumber> validationRules.increment).rule
+        var increment: number = angular.isObject(validationRules.increment)
+          ? (<ValidationRuleNumber>validationRules.increment).rule
           : angular.isFunction(validationRules.increment)
             ? validationRules.increment.call(this, value)
-            : <number> validationRules.increment;
+            : <number>validationRules.increment;
 
         if (stringValue && !isNaN(numericValue)) {
           // Convert floating point values to integers before comparing to avoid rounding errors
@@ -343,15 +343,15 @@ module formFor {
           }
 
           if (numericValue % increment > 0) {
-            var failureMessage:string;
+            var failureMessage: string;
 
             if (angular.isObject(validationRules.increment)) {
-              failureMessage = (<ValidationRuleNumber> validationRules.increment).message;
+              failureMessage = (<ValidationRuleNumber>validationRules.increment).message;
             } else {
               failureMessage =
                 this.$interpolate_(
                   this.formForConfiguration_.getFailedValidationMessage(
-                    ValidationFailureType.INCREMENT))({num: increment});
+                    ValidationFailureType.INCREMENT))({ num: increment });
             }
 
             return this.promiseUtils_.reject(failureMessage);
@@ -362,27 +362,27 @@ module formFor {
       return null;
     }
 
-    private validateFieldMaximum_(value:any, validationRules:ValidationRules):any {
+    private validateFieldMaximum_(value: any, validationRules: ValidationRules): any {
       if (validationRules.maximum || validationRules.maximum === 0) {
-        var stringValue:string = value.toString();
-        var numericValue:number = Number(value);
+        var stringValue: string = value.toString();
+        var numericValue: number = Number(value);
 
-        var maximum:number = angular.isObject(validationRules.maximum)
-          ? (<ValidationRuleNumber> validationRules.maximum).rule
+        var maximum: number = angular.isObject(validationRules.maximum)
+          ? (<ValidationRuleNumber>validationRules.maximum).rule
           : angular.isFunction(validationRules.maximum)
             ? validationRules.maximum.call(this, value)
-            : <number> validationRules.maximum;
+            : <number>validationRules.maximum;
 
         if (stringValue && !isNaN(numericValue) && numericValue > maximum) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRules.maximum)) {
-            failureMessage = (<ValidationRuleNumber> validationRules.maximum).message;
+            failureMessage = (<ValidationRuleNumber>validationRules.maximum).message;
           } else {
             failureMessage =
               this.$interpolate_(
                 this.formForConfiguration_.getFailedValidationMessage(
-                  ValidationFailureType.MAXIMUM))({num: maximum});
+                  ValidationFailureType.MAXIMUM))({ num: maximum });
           }
 
           return this.promiseUtils_.reject(failureMessage);
@@ -392,22 +392,22 @@ module formFor {
       return null;
     }
 
-    private validateFieldMaxLength_(value:any, validationRules:ValidationRules):any {
+    private validateFieldMaxLength_(value: any, validationRules: ValidationRules): any {
       if (validationRules.maxlength) {
-        var maxlength:number = angular.isObject(validationRules.maxlength) ?
-          (<ValidationRuleNumber> validationRules.maxlength).rule :
-          <number> validationRules.maxlength;
+        var maxlength: number = angular.isObject(validationRules.maxlength) ?
+          (<ValidationRuleNumber>validationRules.maxlength).rule :
+          <number>validationRules.maxlength;
 
         if (value.length > maxlength) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRules.maxlength)) {
-            failureMessage = (<ValidationRuleNumber> validationRules.maxlength).message;
+            failureMessage = (<ValidationRuleNumber>validationRules.maxlength).message;
           } else {
             failureMessage =
               this.$interpolate_(
                 this.formForConfiguration_.getFailedValidationMessage(
-                  ValidationFailureType.MAX_LENGTH))({num: maxlength});
+                  ValidationFailureType.MAX_LENGTH))({ num: maxlength });
           }
 
           return this.promiseUtils_.reject(failureMessage);
@@ -417,27 +417,27 @@ module formFor {
       return null;
     }
 
-    private validateFieldMinimum_(value:any, validationRules:ValidationRules):any {
+    private validateFieldMinimum_(value: any, validationRules: ValidationRules): any {
       if (validationRules.minimum || validationRules.minimum === 0) {
-        var stringValue:string = value.toString();
-        var numericValue:number = Number(value);
+        var stringValue: string = value.toString();
+        var numericValue: number = Number(value);
 
-        var minimum:number = angular.isObject(validationRules.minimum)
-          ? (<ValidationRuleNumber> validationRules.minimum).rule
+        var minimum: number = angular.isObject(validationRules.minimum)
+          ? (<ValidationRuleNumber>validationRules.minimum).rule
           : angular.isFunction(validationRules.minimum)
             ? validationRules.minimum.call(this, value)
-            : <number> validationRules.minimum;
+            : <number>validationRules.minimum;
 
         if (stringValue && !isNaN(numericValue) && numericValue < minimum) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRules.minimum)) {
-            failureMessage = (<ValidationRuleNumber> validationRules.minimum).message;
+            failureMessage = (<ValidationRuleNumber>validationRules.minimum).message;
           } else {
             failureMessage =
               this.$interpolate_(
                 this.formForConfiguration_.getFailedValidationMessage(
-                  ValidationFailureType.MINIMUM))({num: minimum});
+                  ValidationFailureType.MINIMUM))({ num: minimum });
           }
 
           return this.promiseUtils_.reject(failureMessage);
@@ -447,22 +447,22 @@ module formFor {
       return null;
     }
 
-    private validateFieldMinLength_(value:any, validationRules:ValidationRules):any {
+    private validateFieldMinLength_(value: any, validationRules: ValidationRules): any {
       if (validationRules.minlength) {
-        var minlength:number = angular.isObject(validationRules.minlength) ?
-          (<ValidationRuleNumber> validationRules.minlength).rule :
-          <number> validationRules.minlength;
+        var minlength: number = angular.isObject(validationRules.minlength) ?
+          (<ValidationRuleNumber>validationRules.minlength).rule :
+          <number>validationRules.minlength;
 
         if (value && value.length < minlength) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRules.minlength)) {
-            failureMessage = (<ValidationRuleNumber> validationRules.minlength).message;
+            failureMessage = (<ValidationRuleNumber>validationRules.minlength).message;
           } else {
             failureMessage =
               this.$interpolate_(
                 this.formForConfiguration_.getFailedValidationMessage(
-                  ValidationFailureType.MIN_LENGTH))({num: minlength});
+                  ValidationFailureType.MIN_LENGTH))({ num: minlength });
           }
 
           return this.promiseUtils_.reject(failureMessage);
@@ -472,23 +472,23 @@ module formFor {
       return null;
     }
 
-    private validateFieldRequired_(value:any, validationRules:ValidationRules, formData:any, fieldName:any):any {
+    private validateFieldRequired_(value: any, validationRules: ValidationRules, formData: any, fieldName: any): any {
       if (validationRules.required) {
-        var required:boolean = angular.isObject(validationRules.required)
-          ? (<ValidationRuleBoolean> validationRules.required).rule
+        var required: boolean = angular.isObject(validationRules.required)
+          ? (<ValidationRuleBoolean>validationRules.required).rule
           : angular.isFunction(validationRules.required)
             ? validationRules.required.apply(this, [value, formData, fieldName])
-            : <boolean> validationRules.required;
+            : <boolean>validationRules.required;
 
         // Compare both string and numeric values to avoid rejecting non-empty but falsy values (e.g. 0).
-        var stringValue:string = values === false ? "" : value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
-        var numericValue:number = Number(value);
+        var stringValue: string = value === false ? "" : value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
+        var numericValue: number = Number(value);
 
         if (required && !stringValue && !numericValue) {
-          var failureMessage:string;
+          var failureMessage: string;
 
           if (angular.isObject(validationRules.required)) {
-            failureMessage = (<ValidationRuleBoolean> validationRules.required).message;
+            failureMessage = (<ValidationRuleBoolean>validationRules.required).message;
           } else {
             failureMessage =
               this.formForConfiguration_.getFailedValidationMessage(
@@ -502,17 +502,17 @@ module formFor {
       return null;
     }
 
-    private validateFieldPattern_(value:any, validationRules:ValidationRules):any {
+    private validateFieldPattern_(value: any, validationRules: ValidationRules): any {
       if (validationRules.pattern) {
-        var isRegExp:boolean = validationRules.pattern instanceof RegExp;
-        var regExp:RegExp = isRegExp ?
-          <RegExp> validationRules.pattern :
-          (<ValidationRuleRegExp> validationRules.pattern).rule;
+        var isRegExp: boolean = validationRules.pattern instanceof RegExp;
+        var regExp: RegExp = isRegExp ?
+          <RegExp>validationRules.pattern :
+          (<ValidationRuleRegExp>validationRules.pattern).rule;
 
         if (value && !regExp.exec(value)) {
-          var failureMessage:string = isRegExp ?
+          var failureMessage: string = isRegExp ?
             this.formForConfiguration_.getFailedValidationMessage(ValidationFailureType.PATTERN) :
-            (<ValidationRuleRegExp> validationRules.pattern).message;
+            (<ValidationRuleRegExp>validationRules.pattern).message;
 
           return this.promiseUtils_.reject(failureMessage);
         }
@@ -521,21 +521,21 @@ module formFor {
       return null;
     }
 
-    private validateFieldType_(value:any, validationRules:ValidationRules):any {
+    private validateFieldType_(value: any, validationRules: ValidationRules): any {
       if (validationRules.type) {
         // String containing 0+ ValidationRuleFieldType enums
-        var typesString:any = angular.isObject(validationRules.type) ?
-          (<ValidationRuleFieldType> validationRules.type).rule :
+        var typesString: any = angular.isObject(validationRules.type) ?
+          (<ValidationRuleFieldType>validationRules.type).rule :
           validationRules.type;
 
-        var stringValue:string = value.toString();
-        var numericValue:number = Number(value);
+        var stringValue: string = value.toString();
+        var numericValue: number = Number(value);
 
         if (typesString) {
-          var types:Array<ValidationFieldType> = typesString.split(' ');
+          var types: Array<ValidationFieldType> = typesString.split(' ');
 
-          for (var i:number = 0, length:number = types.length; i < length; i++) {
-            var type:ValidationFieldType = types[i];
+          for (var i: number = 0, length: number = types.length; i < length; i++) {
+            var type: ValidationFieldType = types[i];
 
             switch (type) {
               case ValidationFieldType.INTEGER:

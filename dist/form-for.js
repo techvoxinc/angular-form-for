@@ -2761,7 +2761,7 @@ var formFor;
                         ? validationRules.required.apply(this, [value, formData, fieldName])
                         : validationRules.required;
                 // Compare both string and numeric values to avoid rejecting non-empty but falsy values (e.g. 0).
-                var stringValue = values === false ? "" : value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
+                var stringValue = value === false ? "" : value.toString().replace(/\s+$/, ''); // Disallow an all-whitespace string
                 var numericValue = Number(value);
                 if (required && !stringValue && !numericValue) {
                     var failureMessage;
